@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  nginx-proxy:
+    container_name: nginx-reverse-proxy
+    image: nginx:1.17.10
+    ports:
+      - "8080:80"
+    volumes:
+      - ./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - whoami-service-1
+      - whoami-service-2
+      - whoami-service-3
+
+  whoami-service-1:
+    container_name: whoami-service-1
+    image: jwilder/whoami
+    ports:
+      - "80:8000"
+
+  whoami-service-2:
+    container_name: whoami-service-2
+    image: jwilder/whoami
+    ports:
+      - "5001:8000"
+
+  whoami-service-3:
+    container_name: whoami-service-3
+    image: jwilder/whoami
+    ports:
+      - "5002:8000"
